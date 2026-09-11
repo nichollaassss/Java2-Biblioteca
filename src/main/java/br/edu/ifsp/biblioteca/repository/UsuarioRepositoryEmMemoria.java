@@ -9,6 +9,7 @@ public class UsuarioRepositoryEmMemoria implements IUsuarioRepository{
     private final Map<Long, Usuario> usuarios = new HashMap<>();
     private Long sequenciaId = 0L;
 
+    @Override
     public Usuario salvar(Usuario usuario) {
 
         if (usuario.getId() == null) {
@@ -19,10 +20,12 @@ public class UsuarioRepositoryEmMemoria implements IUsuarioRepository{
         return usuario;
     }
 
+    @Override
     public Optional<Usuario> buscarPorId (long id) {
         return Optional.ofNullable(this.usuarios.get(id));
     }
 
+    @Override
     public Optional<Usuario> buscarPorEmail (String email) {
         List<Usuario> listaUsuarios = new ArrayList<>(this.usuarios.values());
 
@@ -37,6 +40,7 @@ public class UsuarioRepositoryEmMemoria implements IUsuarioRepository{
         return Optional.empty();
     }
 
+    @Override
     public List<Usuario> listarTodos () {
         return new ArrayList<>(this.usuarios.values());
     }
