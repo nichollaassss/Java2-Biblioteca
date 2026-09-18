@@ -1,18 +1,14 @@
 package br.edu.ifsp.biblioteca.service;
 
-import br.edu.ifsp.biblioteca.domain.Autor;
-import br.edu.ifsp.biblioteca.domain.Exemplar;
-import br.edu.ifsp.biblioteca.domain.Livro;
 import br.edu.ifsp.biblioteca.domain.Usuario;
 import br.edu.ifsp.biblioteca.exception.RegraDeNegocioException;
 import br.edu.ifsp.biblioteca.repository.IUsuarioRepository;
-import br.edu.ifsp.biblioteca.repository.IUsuarioRepository;
-import br.edu.ifsp.biblioteca.repository.UsuarioRepositoryEmMemoria;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
+@Service
 public class UsuarioService {
 
     private final IUsuarioRepository usuarioRepository;

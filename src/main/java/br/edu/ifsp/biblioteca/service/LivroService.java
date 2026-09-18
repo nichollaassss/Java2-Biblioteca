@@ -5,11 +5,12 @@ import br.edu.ifsp.biblioteca.domain.Exemplar;
 import br.edu.ifsp.biblioteca.domain.Livro;
 import br.edu.ifsp.biblioteca.exception.RegraDeNegocioException;
 import br.edu.ifsp.biblioteca.repository.ILivroRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
+@Service
 public class LivroService {
 
     private final ILivroRepository livroRepository;

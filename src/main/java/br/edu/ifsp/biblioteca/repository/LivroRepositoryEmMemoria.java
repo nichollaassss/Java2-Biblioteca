@@ -1,9 +1,14 @@
 package br.edu.ifsp.biblioteca.repository;
 
 import br.edu.ifsp.biblioteca.domain.Livro;
+import jdk.jfr.MemoryAddress;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
+@Profile("memoria")
 public class LivroRepositoryEmMemoria implements ILivroRepository {
 
     private final Map<Long, Livro> livros = new HashMap<Long, Livro>();

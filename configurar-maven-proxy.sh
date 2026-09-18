@@ -56,3 +56,4 @@ echo "Proxy configurado com sucesso!"
 echo "Host: $PROXY_HOST"
 echo "Porta: $PROXY_PORT"
 echo "Arquivo: $SETTINGS_FILE"
+
