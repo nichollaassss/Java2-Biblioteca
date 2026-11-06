@@ -1,15 +1,18 @@
 package br.edu.ifsp.biblioteca.domain;
 
+import java.util.List;
+
 public class Exemplar {
 
-    public Long id;
-    public String codigo;
-    public EStatusExemplar status;
-    public Livro livro;
+    private Long id;
+    private String codigo;
+    private EStatusExemplar status;
+    private Livro livro;
 
-    public Exemplar(String codigo, Livro livro){
+    public Exemplar(String codigo, Livro livro) {
         this.codigo = codigo;
         this.livro = livro;
+        this.status = EStatusExemplar.DISPONIVEL;
     }
 
     public Long getId() {
@@ -44,19 +47,26 @@ public class Exemplar {
         this.livro = livro;
     }
 
-    public void emprestar (){
-        if(this.status == EStatusExemplar.EMPRESTADO){
-            throw new IllegalStateException("Exemplar" + this.codigo + "já está emprestado");
+    public void emprestar() {
+        if(this.status == EStatusExemplar.EMPRESTADO) {
+            throw new IllegalStateException("Exemplar " + this.codigo + "já está emprestado!!");
         }
-
         this.status = EStatusExemplar.EMPRESTADO;
     }
 
-    public void devolver (){
+    public void devolver(){
         this.status = EStatusExemplar.DISPONIVEL;
     }
 
     public boolean estaDisponivel() {
-        return this.status == EStatusExemplar.DISPONIVEL;
+        return this.status ==EStatusExemplar.DISPONIVEL;
+    }
+
+    @Override
+    public String toString() {
+        return "Exemplar{" +
+                "codigo ='" + codigo + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

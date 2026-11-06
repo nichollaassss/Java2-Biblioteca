@@ -117,3 +117,4 @@ echo "Concluído com sucesso!"
 echo "Commit: $NOME"
 echo "Tag:    $NOME"
 echo "============================================"
+

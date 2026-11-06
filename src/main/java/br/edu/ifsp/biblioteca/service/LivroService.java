@@ -15,69 +15,70 @@ public class LivroService {
 
     private final ILivroRepository livroRepository;
 
-    public LivroService (ILivroRepository repository){
+    public LivroService(ILivroRepository repository) {
         this.livroRepository = repository;
     }
 
     public Livro cadastrar(Livro livro) {
 
-            if (livro.getTitulo() == null || livro.getTitulo().isEmpty()) {
+        if (livro.getTitulo() == null || livro.getTitulo().isEmpty()) {
+            throw new RegraDeNegocioException("O Título é Obrigatório!");
+        }
 
-                throw new RegraDeNegocioException("O título é obrigatório ao cadastrar um livro");
-            }
+        if (livro.getIsbn() == null || livro.getIsbn().isEmpty()) {
+            throw new RegraDeNegocioException("ISBN é Obrigatório!");
+        }
 
-            if (livro.getIsbn() == null || livro.getIsbn().isEmpty()) {
+        if (livro.getAnoPublicacao() <= 0) {
+            throw new RegraDeNegocioException("O Ano de Publicação deve ser maior que 0");
+        }
 
-                throw new RegraDeNegocioException("O ISBN é obrigatório ao cadastrar um livro");
-            }
+        Optional<Livro> livroJaCadastradoOptional = this.livroRepository
+                .buscarPorIsbn(livro.getIsbn());
 
-            if (livro.getAnoPublicacao() == null || livro.getAnoPublicacao() <= 0) {
+        if (livroJaCadastradoOptional.isPresent()) {
+            throw new RegraDeNegocioException(
+                    "Já existe um livro cadastrado com o ISBN: " + livro.getIsbn()
+            );
+        }
 
-                throw new RegraDeNegocioException("O ano de publicação é obrigatório ao cadastrar um livro");
-            }
+        Livro livroCadastrado = this.livroRepository.salvar(livro);
 
-            Optional<Livro> livroJaCadastrado = this.livroRepository.buscarPorIsbn(livro.getIsbn());
-
-            if(livroJaCadastrado.isPresent())
-            {
-                throw new RegraDeNegocioException("Já existe um livro cadastrado com o ISBN " + livro.getIsbn());
-            }
-
-            return this.livroRepository.salvar(livro);
-
+        return livroCadastrado;
     }
 
-    public Livro buscarLivro (Long livroId){
-        Optional<Livro> livroOptional = livroRepository.buscarPorId(livroId);
+    public Livro adicionarExemplar(Long livroId, String codigoDoExemplar) {
 
-        if(livroOptional.isPresent())
+        Livro livro = this.buscarPorId(livroId);
+        livro.adicionarExemplar(new Exemplar(codigoDoExemplar, livro));
+
+        return this.livroRepository.salvar(livro);
+    }
+
+    public Livro adicionarAutor(Long livroId, String nomeAutor) {
+
+        Livro livroEncontrado = this.buscarPorId(livroId);
+        livroEncontrado.adicionarAutor(new Autor(nomeAutor));
+
+        return this.livroRepository.salvar(livroEncontrado);
+    }
+
+    public Livro buscarPorId(Long id) {
+
+        Optional<Livro> livroOptional = this.livroRepository.buscarPorId(id);
+
+        if (livroOptional.isPresent()) {
             return livroOptional.get();
+        }
 
-        throw new RegraDeNegocioException("Livro com id \" + livroId + \" não encontrado");
+        throw new RegraDeNegocioException("Livro não encontrado: " + id);
     }
 
-    public Livro adicionarExemplar(Long livroId, String codigoExemplar){
-
-        Livro livro = buscarLivro(livroId);
-
-        livro.adicionarExemplar(new Exemplar(codigoExemplar, livro));
-        return this.livroRepository.salvar(livro);
-
+    public List<Livro> buscarPorTitulo(String trechoDoTitulo) {
+        return this.livroRepository.buscarPorTitulo(trechoDoTitulo);
     }
 
-    public Livro adicionarAutor(Long livroId, String nomeAutor){
-
-        Livro livro = buscarLivro(livroId);
-
-        livro.adicionarAutor(new Autor(nomeAutor));
-        return this.livroRepository.salvar(livro);
-    }
-
-    public List<Livro> buscarPorTitulo(String trechoDoTitulo){
-        return livroRepository.buscarPorTitulo(trechoDoTitulo);
-    }
-
-    public List<Livro> listarTodos(){
-        return livroRepository.listarTodos();
+    public List<Livro> listarTodos() {
+        return this.livroRepository.listarTodos();
     }
 }

@@ -13,48 +13,47 @@ public class UsuarioService {
 
     private final IUsuarioRepository usuarioRepository;
 
-    public UsuarioService (IUsuarioRepository repository){
+    public UsuarioService(IUsuarioRepository repository) {
         this.usuarioRepository = repository;
     }
 
     public Usuario cadastrar(Usuario usuario) {
 
         if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
-
-            throw new RegraDeNegocioException("O nome é obrigatório ao cadastrar um usuario");
+            throw new RegraDeNegocioException("Nome é obrigatório");
         }
 
         if (usuario.getEmail() == null || usuario.getEmail().isEmpty()) {
-
-            throw new RegraDeNegocioException("O email é obrigatório ao cadastrar um usuario");
+            throw new RegraDeNegocioException("E-mail é obrigatório");
         }
 
         this.validarEmail(usuario.getEmail());
 
         return this.usuarioRepository.salvar(usuario);
-
     }
 
-    public Usuario buscarPorId(Long usuarioId){
-        Optional<Usuario> usuarioOptional = usuarioRepository.buscarPorId(usuarioId);
+    public Usuario buscarPorId(Long id) {
 
-        if(usuarioOptional.isPresent()){
-            Usuario usuario = usuarioOptional.get();
+        Optional<Usuario> usuarioOptional = this.usuarioRepository.buscarPorId(id);
 
-            return usuario;
+        if (usuarioOptional.isPresent()) {
+            return usuarioOptional.get();
         }
 
-            throw new RegraDeNegocioException("Usuario com id \" + usuarioId + \" não encontrado");
+        throw new RegraDeNegocioException("Usuário não encontrado: " + id);
     }
 
-    public void validarEmail (String email){
-        Optional<Usuario> usuarioOptional = usuarioRepository.buscarPorEmail(email);
+    private void validarEmail(String email) {
+        Optional<Usuario> usuarioOptional = this.usuarioRepository.buscarPorEmail(email);
 
-        if(usuarioOptional.isPresent())
-            throw new RegraDeNegocioException("Usuario com email \" + email + \" já cadastrado");
+        if (usuarioOptional.isPresent()) {
+            throw new RegraDeNegocioException(
+                    "Já existe um usuário cadastrado com o e-mail: " + email
+            );
+        }
     }
 
-    public List<Usuario> listarTodos(){
-        return usuarioRepository.listarTodos();
+    public List<Usuario> listarTodos() {
+        return this.usuarioRepository.listarTodos();
     }
 }

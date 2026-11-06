@@ -9,25 +9,18 @@ public class Autor {
         this.nome = nome;
     }
 
-    public String getNome() {
-        return this.nome;
-    }
-
     public Long getId() {
         return this.id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getNome() {return this.nome;}
+
     @Override
     public String toString() {
         return this.nome;
     }
-
 }

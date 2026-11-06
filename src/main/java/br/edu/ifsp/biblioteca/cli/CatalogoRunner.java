@@ -3,8 +3,6 @@ package br.edu.ifsp.biblioteca.cli;
 import br.edu.ifsp.biblioteca.domain.Livro;
 import br.edu.ifsp.biblioteca.domain.Usuario;
 import br.edu.ifsp.biblioteca.exception.RegraDeNegocioException;
-import br.edu.ifsp.biblioteca.repository.LivroRepositoryEmMemoria;
-import br.edu.ifsp.biblioteca.repository.UsuarioRepositoryEmMemoria;
 import br.edu.ifsp.biblioteca.service.LivroService;
 import br.edu.ifsp.biblioteca.service.UsuarioService;
 import org.springframework.boot.CommandLineRunner;
@@ -18,8 +16,10 @@ public class CatalogoRunner implements CommandLineRunner {
     private final LivroService livroService;
     private final UsuarioService usuarioService;
 
-    public CatalogoRunner(LivroService livroService, UsuarioService usuarioService) {
-
+    public CatalogoRunner(
+            LivroService livroService,
+            UsuarioService usuarioService
+    ) {
         this.livroService = livroService;
         this.usuarioService = usuarioService;
     }
@@ -30,9 +30,9 @@ public class CatalogoRunner implements CommandLineRunner {
         System.out.println("=== Biblioteca IFSP - v0 (tudo em memória) ===");
 
         Livro domCasmurro = new Livro(
-            "9788508145607",
-            "Dom Casmurro",
-            1899
+                "9788508141801",
+                "Dom Casmurro",
+                1899
         );
 
         this.livroService.cadastrar(domCasmurro);
@@ -42,9 +42,9 @@ public class CatalogoRunner implements CommandLineRunner {
         this.livroService.adicionarExemplar(domCasmurro.getId(), "DC-002");
 
         Livro vidasSecas = new Livro(
-            "9788508145603",
-            "Vidas Secas",
-            1938
+                "9788508145631",
+                "Vidas Secas",
+                1938
         );
 
         this.livroService.cadastrar(vidasSecas);
@@ -84,11 +84,11 @@ public class CatalogoRunner implements CommandLineRunner {
         try {
 
             this.livroService.cadastrar(
-                new Livro(
-                    "9788508145603",
-                    "Vidas Secas",
-                    1938
-                )
+                    new Livro(
+                            "9788508142506",
+                            "Vidas Secas",
+                            1938
+                    )
             );
 
         } catch (RegraDeNegocioException erro) {
