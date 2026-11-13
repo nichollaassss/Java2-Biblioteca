@@ -29,12 +29,12 @@ public class UsuarioService {
 
         this.validarEmail(usuario.getEmail());
 
-        return this.usuarioRepository.salvar(usuario);
+        return this.usuarioRepository.save(usuario);
     }
 
-    public Usuario buscarPorId(Long id) {
+    public Usuario findById(Long id) {
 
-        Optional<Usuario> usuarioOptional = this.usuarioRepository.buscarPorId(id);
+        Optional<Usuario> usuarioOptional = this.usuarioRepository.findById(id);
 
         if (usuarioOptional.isPresent()) {
             return usuarioOptional.get();
@@ -44,7 +44,7 @@ public class UsuarioService {
     }
 
     private void validarEmail(String email) {
-        Optional<Usuario> usuarioOptional = this.usuarioRepository.buscarPorEmail(email);
+        Optional<Usuario> usuarioOptional = this.usuarioRepository.findByEmail(email);
 
         if (usuarioOptional.isPresent()) {
             throw new RegraDeNegocioException(
